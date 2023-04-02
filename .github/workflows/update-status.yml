@@ -1,0 +1,162 @@
+name: update-stats
+concurrency: 'update-stats'
+
+on:
+  schedule:
+    - cron: "0 1 * * *"
+  workflow_dispatch:
+
+jobs:
+  update-stats:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        statsRepo:
+          - idaholab/advcubit
+          - idaholab/atDisco
+          - idaholab/ATIS
+          - idaholab/BayCal
+          - idaholab/BinaryDriller
+          - idaholab/BinDrill
+          - idaholab/blackbear
+          - idaholab/Caldera_Grid
+          - idaholab/Caldera_ICM
+          - idaholab/civet
+          - idaholab/civet_example_recipes
+          - idaholab/DaRT
+          - idaholab/Deep-Lynx
+          - idaholab/Deep-Lynx-Data-Historian
+          - idaholab/Deep-Lynx-JS-SDK
+          - idaholab/Deep-Lynx-Machine-Learning
+          - idaholab/Deep-Lynx-MOOSE
+          - idaholab/Deep-Lynx-Python-Package
+          - idaholab/Deep-Lynx-UNC
+          - idaholab/DIAMOND
+          - idaholab/DISCOverflow
+          - idaholab/EMRALD
+          - idaholab/EMV
+          - idaholab/Enhanced_STIX_Elevator
+          - idaholab/falcon
+          - idaholab/FORCE
+          - idaholab/GEM
+          - idaholab/General-Simulator-Intermediary
+          - idaholab/GranularFlowModels
+          - idaholab/HERON
+          - idaholab/hit
+          - idaholab/HYBRID
+          - idaholab/Hydro_Hybrids
+          - idaholab/ICSNPP
+          - idaholab/IDEAS
+          - idaholab/isopod
+          - idaholab/IX-DiscoveryTools
+          - idaholab/Jester
+          - idaholab/labrat
+          - idaholab/large_media
+          - idaholab/LIGGGHTS-INL
+          - idaholab/Location-Generalizer
+          - idaholab/LOGOS
+          - idaholab/magpie
+          - idaholab/malamute
+          - idaholab/Malcolm
+          - idaholab/mastodon
+          - idaholab/moose
+          - idaholab/moose-language-support
+          - idaholab/moosetools
+          - idaholab/mytrim
+          - idaholab/ncrc-client
+          - idaholab/PRISM
+          - idaholab/raven
+          - idaholab/SPEMMCRA
+          - idaholab/SPPARKS
+          - idaholab/SR2ML
+          - idaholab/STAR
+          - idaholab/STEM
+          - idaholab/STIG
+          - idaholab/STIXEnforcer
+          - idaholab/stork
+          - idaholab/STOTS
+          - idaholab/TEAL
+          - idaholab/TMAP8
+          - idaholab/VDEA
+          - idaholab/virtual_test_bed
+          - idaholab/WiiBin
+          - idaholab/XFEMParaviewPlugin
+          - IdahoLabResearch/5GAD
+          - IdahoLabResearch/BIhNNs
+          - IdahoLabResearch/Buggy-Program-Program
+          - IdahoLabResearch/CDB_Analysis_Program
+          - IdahoLabResearch/CIACS
+          - IdahoLabResearch/CMAT
+          - IdahoLabResearch/CoCuNi
+          - IdahoLabResearch/DREEM
+          - IdahoLabResearch/HEA_Code
+          - IdahoLabResearch/HFVT
+          - IdahoLabResearch/HPCACT-2022
+          - IdahoLabResearch/HydroGenerate
+          - IdahoLabResearch/Hydropower_Unit_Models
+          - IdahoLabResearch/HyPAT
+          - IdahoLabResearch/INLIDD
+          - IdahoLabResearch/LISA
+          - IdahoLabResearch/OMDD
+          - IdahoLabResearch/PowDDeR-Python
+          - IdahoLabResearch/PyEmission
+          - IdahoLabResearch/ReMAIn
+          - IdahoLabResearch/Scramble
+          - IdahoLabResearch/SFWDSubsurface
+          - IdahoLabResearch/tapsap
+          - IdahoLabResearch/TAPsolver
+          - IdahoLabResearch/TROPFE
+          - IdahoLabResearch/WOODCOM
+          - IdahoLabUnsupported/ADREM
+          - IdahoLabUnsupported/AspenPlus
+          - IdahoLabUnsupported/ATTAR
+          - IdahoLabUnsupported/CLATesting
+          - IdahoLabUnsupported/DAIRIEES
+          - IdahoLabUnsupported/FakeADFS
+          - IdahoLabUnsupported/IGCAPT
+          - IdahoLabUnsupported/IGCAPT_XMLConverter
+          - IdahoLabUnsupported/inl-azure-devops-tasks
+          - IdahoLabUnsupported/LEAF
+          - IdahoLabUnsupported/LinuxSA
+          - IdahoLabUnsupported/LRS_SORT
+          - IdahoLabUnsupported/PowDDeR
+          - IdahoLabUnsupported/WEST
+      fail-fast: false
+      max-parallel: 1
+    steps:
+      - name: run-ghrs
+        uses: jgehrcke/github-repo-stats@v1.4.2
+        with:
+          repository: ${{ matrix.statsRepo }}
+          ghtoken: ${{ secrets.GHRS_GITHUB_API_TOKEN }}
+          databranch: main
+
+  update-stats-external:
+    if: always()
+    needs: update-stats
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        statsRepoExt:
+          - cisagov/ICSNPP
+          - cisagov/icsnpp-bacnet
+          - cisagov/icsnpp-bsap
+          - cisagov/icsnpp-dnp3
+          - cisagov/icsnpp-enip
+          - cisagov/icsnpp-ethercat
+          - cisagov/icsnpp-genisys
+          - cisagov/icsnpp-modbus
+          - cisagov/icsnpp-opcua-binary
+          - cisagov/icsnpp-s7comm
+          - cisagov/icsnpp-synchrophasor
+          - cisagov/Malcolm
+          - cisagov/network-architecture-verification-and-validation
+      fail-fast: false
+      max-parallel: 1
+    steps:
+      - name: run-ghrs-ext
+        uses: jgehrcke/github-repo-stats@v1.4.2
+        with:
+          repository: ${{ matrix.statsRepoExt }}
+          ghtoken: ${{ secrets.GHRS_EXT_GITHUB_API_TOKEN }}
+          databranch: main
